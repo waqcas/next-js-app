@@ -20,7 +20,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4 #github.com/actions/checkout
+    - uses: actions/checkout@v4 #github.com/actions/checkout 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -28,4 +28,24 @@ jobs:
         # cache: 'npm'
     - run: npm i # npm install # npm install
     - run: npm run build 
+    # - run: npm test
+
+  build_test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4 #github.com/actions/checkout 
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        # cache: 'npm'
+    - run: npm i # npm install # npm install
+    - run: npm run build
     - run: npm test
