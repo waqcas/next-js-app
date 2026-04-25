@@ -20,7 +20,7 @@ jobs:
         terraform_version: 1.14.0
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform -chdir=./terraform init
 
     - name: Printing Variables
       run: | 
