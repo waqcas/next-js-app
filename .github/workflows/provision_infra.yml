@@ -41,6 +41,9 @@ jobs:
       run: |
         echo "installing linter"
         curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+        working-directory: ./terraform
+        tflint --init
+        tflint        
 
     - name: Terraform apply 
       run: terraform -chdir=./terraform apply --auto-approve
