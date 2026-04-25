@@ -27,11 +27,11 @@ jobs:
     - name: Terraform Init
       run: echo "hello world"
 
-    - name: Terraform Plan
-      run: terraform plan -input=false
+    # - name: Terraform Plan
+    #   run: terraform plan -input=false
 
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+    # - name: Terraform Apply
+    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #   run: terraform apply -auto-approve -input=false
 
   
