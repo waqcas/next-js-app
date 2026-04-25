@@ -32,7 +32,7 @@ jobs:
 
     - name: Priniting some other Variables
       if: github.head_ref == 'integration' && github.event_name == 'pull_request'
-      run: terraform -chdir=./simple apply --auto-approve
+      run: terraform -chdir=./terraform apply --auto-approve
     
 
   
