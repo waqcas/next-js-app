@@ -32,7 +32,9 @@ jobs:
 
     - name: Priniting some other Variables
       if: github.head_ref == 'integration' && github.event_name == 'pull_request'
-      run: terraform -chdir=./terraform apply --auto-approve
+      echo "Hello World .. Pakistan"
     
+    - name: Terraform apply 
+      run: terraform -chdir=./terraform apply --auto-approve
 
   
