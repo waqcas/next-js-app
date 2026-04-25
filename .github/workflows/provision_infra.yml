@@ -26,7 +26,7 @@ jobs:
       run: | 
         echo "GIT HUB REFS ${{ github.ref }}"
         echo "GITHUB EVENT NAME ${{ github.event_name }}"
-        echo "BRANCH NAME ${{ github.ref_name }}"
+        echo "BRANCH NAME ${{ github.head_ref }}"
       # refs/pull/12/merge
       # pull_request
 
