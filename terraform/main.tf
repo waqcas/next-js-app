@@ -6,3 +6,5 @@ resource "aws_vpc" "my_vpc" {
       my-key = "my-pair"
    }
 }
+
+

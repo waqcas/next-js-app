@@ -37,6 +37,9 @@ jobs:
       if: github.head_ref == 'integration' && github.event_name == 'pull_request'
       run: echo "Hello World .. Pakistan"
     
+    - name: Terraform Lint 
+      run: echo "This is Terraform linting job"
+
     - name: Terraform apply 
       run: terraform -chdir=./terraform apply --auto-approve
       # env:
