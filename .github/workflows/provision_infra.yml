@@ -23,8 +23,8 @@ jobs:
       run: terraform init
 
     - name: Printing Variables
-      run: echo "GIT HUB REFS ${{ github.ref }}""
-      run: echo "GITHUB EVENT NAME ${{ github.event_name }}""
+      run: echo "GIT HUB REFS ${{ github.ref }}"
+      run: echo "GITHUB EVENT NAME ${{ github.event_name }}"
 
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
