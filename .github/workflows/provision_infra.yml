@@ -1,0 +1,37 @@
+name: AWS Infra Provisioning
+on:
+  # push:
+  #   branches: [ "main" ]
+  pull_request:
+    branches: [ "feature" ]
+
+jobs:
+  terraform_linting_job:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.14.0
+
+    - name: Terraform Init
+      run: echo "hello world"
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
+
+  
