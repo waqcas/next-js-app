@@ -30,8 +30,9 @@ jobs:
       # refs/pull/12/merge
       # pull_request
 
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: terraform apply -auto-approve -input=false
+    - name: Priniting some other Variables
+      if: github.head_ref == 'integration' && github.event_name == 'push'
+      run: terraform apply -auto-approve 
+    
 
   
