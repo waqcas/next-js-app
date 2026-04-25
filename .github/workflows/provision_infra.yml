@@ -38,8 +38,9 @@ jobs:
       run: echo "Hello World .. Pakistan"
     
     - name: Terraform Lint 
-      run: echo "installing linter"
-      run: curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      run: |
+        echo "installing linter"
+        curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 
     - name: Terraform apply 
       run: terraform -chdir=./terraform apply --auto-approve
