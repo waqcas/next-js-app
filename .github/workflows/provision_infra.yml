@@ -1,0 +1,66 @@
+name: AWS Infra Provisioning
+on:
+  # push:
+  #   branches: [ "main" ]
+  pull_request:
+    branches: [ "feature" ]
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4 #github.com/actions/checkout 
+    - run: docker build -t waqcas/next-js-app .
+    - run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - run: docker push waqcas/next-js-app
+
+  terraform_linting_job:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.14.0
+
+    - name: Terraform Init
+      run: terraform -chdir=./terraform init
+
+    - name: Printing Variables
+      run: | 
+        echo "GIT HUB REFS ${{ github.ref }}"
+        echo "GITHUB EVENT NAME ${{ github.event_name }}"
+        echo "BRANCH NAME ${{ github.head_ref }}"
+      # refs/pull/12/merge
+      # pull_request
+
+    - name: Priniting some other Variables
+      if: github.head_ref == 'integration' && github.event_name == 'pull_request'
+      run: echo "Hello World .. Pakistan"
+    
+    - name: Terraform Lint 
+      run: |
+        echo "installing linter"
+        curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+        cd ./terraform
+        tflint --init
+        tflint        
+
+    - name: Security Scanning
+      run: |
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.70.0
+        trivy image waqcas/next-js-app:latest
+
+    - name: Terraform apply 
+      run: terraform -chdir=./terraform apply --auto-approve
+      # env:
+      #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
